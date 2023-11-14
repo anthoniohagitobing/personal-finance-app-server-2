@@ -22,5 +22,5 @@ urlpatterns = [
     path('myapp/', include('myapp.urls')),
         # this will forward to myapp application where it will handle different url
         # the reason to do this is to categorize the path and have each app have its own url
-    path('rest/', include('rest.urls')),
+    path('', include('rest.urls')),
 ]
