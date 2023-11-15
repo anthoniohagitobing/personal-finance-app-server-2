@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import pickle
 from django.db.models import Sum
+from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
