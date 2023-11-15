@@ -5,9 +5,11 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import pickle
 from django.db.models import Sum
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User as UserDjango
+# from django.contrib.auth import authenticate, login
 
 # Create your views here.
+@csrf_exempt
 def home(request):
     return HttpResponse('Test backend server')
 
@@ -15,6 +17,7 @@ def get_user(request, email):
     if request.method == 'GET':
         # print(email)
         data = User.objects.filter(email=email).values()
+        print(data)
 
         # Change name to JavaScript syntax
         new_data = {}
@@ -29,6 +32,23 @@ def get_user(request, email):
     else:
         return HttpResponse('Invalid URL', status=404)
 
+# @csrf_exempt
+# def sign_in_user(request):
+#     # return HttpResponse('Test backend server')
+#     if request.method == 'POST':
+#         # Processing incoming data
+#         data = json.loads(request.body)
+#         print(data)
+#         print(request)
+#         print(data['email'])
+#         user = authenticate(request, username=data['email'], password=['password'])
+#         print(user)
+#         if user is not None:
+#             login(request, user)
+#             return HttpResponse(data['email'], status=200)
+#         else:
+#             return HttpResponse('Invalid username or password', status=404)
+
 @csrf_exempt
     # with post method, you need cookies
     # this is a temporary solution as authentication has not been built yet
@@ -42,6 +62,9 @@ def create_user(request):
             first_name = data['firstName'],
             last_name = data['lastName'],
         )
+
+        # user = UserDjango.objects.create_user(username=data['email'], password=data['password'], email=data['email'], first_name=data['firstName'], last_name=data['lastName'])
+
         return HttpResponse('User created in backend database', status=201)
     else:
         return HttpResponse('Invalid URL', status=404)
